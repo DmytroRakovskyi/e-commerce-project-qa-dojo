@@ -15,8 +15,8 @@ test.describe('', { tag: ['@smoke', '@cookies'] }, () => {
       await homePage.navigateToHomePage();
     });
     await test.step('Cookie dialogue content', async () => {
-      await expect(homePage.cookieDialogue.dialogueContainer).toBeVisible();
-      await expect(homePage.cookieDialogue.policyText).toContainText(dialogueText);
+      await expect.soft(homePage.cookieDialogue.dialogueContainer).toBeVisible();
+      await expect.soft(homePage.cookieDialogue.policyText).toContainText(dialogueText);
     });
     await test.step('Accept all cookies, verify dialogue window is closed', async () => {
       await homePage.cookieDialogue.clickOnAcceptButton();
