@@ -5,3 +5,9 @@ export type CountryDictionary = {
   language: string;
   urlPart: string;
 };
+
+export enum Category {
+  Men = 'men',
+  Women = 'women',
+  Children = 'children',
+}
