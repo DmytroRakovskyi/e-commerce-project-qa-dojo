@@ -14,7 +14,9 @@ on:
         type: choice
         description: 'Select the type of tests to run'
         options:
-          - 'e2e'
+          - 'e2e_chrome'
+          - 'e2e_safari'
+          - 'e2e_firefox'
 jobs:
   test:
     timeout-minutes: 60
@@ -28,8 +30,8 @@ jobs:
         run: npm ci
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
-      - name: Run Playwright tests and report
-        run: npx playwright test --reporter=html
+      - name: Run Playwright tests
+        run: npx playwright test --project=e2e_chrome
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
