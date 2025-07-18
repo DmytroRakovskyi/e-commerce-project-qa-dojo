@@ -36,8 +36,20 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
-      name: 'e2e',
+      name: 'e2e_chrome',
       use: { ...devices['Desktop Chrome'] },
+      testDir: './tests',
+      testMatch: '**/*.@(spec|e2e|test).?(c|m)[jt]s?(x)',
+    },
+    {
+      name: 'e2e_safari',
+      use: { ...devices['Desktop Safari'] },
+      testDir: './tests',
+      testMatch: '**/*.@(spec|e2e|test).?(c|m)[jt]s?(x)',
+    },
+    {
+      name: 'e2e_firefox',
+      use: { ...devices['Desktop Firefox'] },
       testDir: './tests',
       testMatch: '**/*.@(spec|e2e|test).?(c|m)[jt]s?(x)',
     },

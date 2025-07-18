@@ -4,7 +4,11 @@
   "description": "Final project",
   "main": "index.js",
   "scripts": {
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "prettier:fix": "",
+    "test:chromium": "npx playwright test --project=e2e_chrome",
+    "test:safari": "npx playwright test --project=e2e_safari",
+    "test:firefox": "npx playwright test --project=e2e_firefox"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,css,scss,md,json}": "prettier --write"

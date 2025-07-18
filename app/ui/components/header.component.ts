@@ -1,11 +1,11 @@
 import { Page, Locator } from '@playwright/test';
-export class Header {
+export class HeaderComponent {
   readonly page: Page;
   readonly logoIcon: Locator;
   private burgerButton: Locator;
   private loginButton: Locator;
   private searchButton: Locator;
-  private cartButton: Locator;
+  readonly cartButton: Locator;
   private helpCenterButton: Locator;
 
   constructor(page: Page) {

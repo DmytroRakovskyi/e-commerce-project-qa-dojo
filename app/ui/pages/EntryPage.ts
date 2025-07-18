@@ -1,6 +1,6 @@
 import { Locator, Page } from '@playwright/test';
 import { BasePage } from './BasePage';
-import { CookieDialogue } from '../modals/CookieDialogue';
+import { CookieDialogue } from '../modals/cookieDialogue.modal';
 
 export class EntryPage extends BasePage {
   public cookieDialogue: CookieDialogue;
@@ -12,8 +12,8 @@ export class EntryPage extends BasePage {
   constructor(page: Page) {
     super(page);
     this.cookieDialogue = new CookieDialogue(page);
-    this.countrySelectrorButton = page.locator('button[id=downshift-0-toggle-button]');
-    this.languageSelectorButton = page.locator('button[id=downshift-1-toggle-button]');
+    this.countrySelectrorButton = page.getByLabel('Location');
+    this.languageSelectorButton = page.getByLabel('Language');
     this.submitButton = page.locator('[class*="submit-button"]');
     this.rememberChoiceCheckBox = page.locator('.zds-checkbox-control');
   }
@@ -24,23 +24,17 @@ export class EntryPage extends BasePage {
 
   public async selectCountry(country: string) {
     await this.countrySelectrorButton.click();
-
-    const option: Locator = this.page.getByRole('option', { name: `${country}` });
-    await option.scrollIntoViewIfNeeded();
-    await option.click();
+    await this.page.getByLabel('Location').selectOption(country);
   }
 
   public async selectLanguage(language: string) {
     await this.languageSelectorButton.click();
-
-    const option: Locator = this.page.getByRole('option', { name: `${language}` });
-    await option.scrollIntoViewIfNeeded();
-    await option.click();
+    await this.page.getByLabel('Language').selectOption(language);
   }
 
   public async rememberChoice() {
     if (!(await this.rememberChoiceCheckBox.isChecked())) {
-      await this.rememberChoiceCheckBox.check();
+      return await this.rememberChoiceCheckBox.check();
     }
   }
 

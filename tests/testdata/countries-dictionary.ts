@@ -2,18 +2,15 @@ import { CountryDictionary, CountryCode } from '../../app/types/types';
 
 export const countries: Record<CountryCode, CountryDictionary> = {
   ua: {
+    code: 'ua',
     name: 'Ukraine',
     language: 'УКРАЇНСЬКА',
-    urlPart: '/ua/',
+    languageCode: 'uk',
   },
   pl: {
+    code: 'pl',
     name: 'Poland',
     language: 'POLSKI',
-    urlPart: '/pl/',
-  },
-  de: {
-    name: 'Germany',
-    language: 'DEUTSCH',
-    urlPart: '/de/',
+    languageCode: 'uk',
   },
 };

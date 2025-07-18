@@ -1,9 +1,10 @@
-export type CountryCode = 'ua' | 'pl' | 'de';
+export type CountryCode = 'ua' | 'pl';
 
 export type CountryDictionary = {
+  code: string;
   name: string;
   language: string;
-  urlPart: string;
+  languageCode: string;
 };
 
 export enum Category {

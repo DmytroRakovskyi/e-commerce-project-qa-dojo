@@ -1,12 +1,12 @@
 import { Page } from '@playwright/test';
 import { BasePage } from './BasePage';
-import { Header } from '../components/header';
+import { HeaderComponent } from '../components/header.component';
 
 export class MainPage extends BasePage {
-  public header: Header;
+  public headerComponent: HeaderComponent;
 
   constructor(page: Page) {
     super(page);
-    this.header = new Header(page);
+    this.headerComponent = new HeaderComponent(page);
   }
 }
