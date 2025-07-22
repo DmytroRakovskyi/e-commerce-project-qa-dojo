@@ -32,8 +32,6 @@ export default defineConfig({
     locale: 'uk-UA',
     timezoneId: 'Europe/Kiev',
     permissions: ['geolocation'],
-    userAgent:
-      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
     testIdAttribute: 'data-qa-id',
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: ' https://www.zara.com',
