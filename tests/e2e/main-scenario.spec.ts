@@ -22,7 +22,7 @@ test.describe('', { tag: ['@smoke', '@cookies'] }, () => {
       await expect.soft(entryPage.cookieDialogue.dialogueContainer).toBeVisible();
     });
     await test.step('Accept all cookies, verify dialogue window is closed', async () => {
-      await entryPage.cookieDialogue.clickOnAcceptButton();
+      await entryPage.cookieDialogue.acceptUsCookies();
       await expect(entryPage.cookieDialogue.dialogueContainer).not.toBeVisible();
     });
 

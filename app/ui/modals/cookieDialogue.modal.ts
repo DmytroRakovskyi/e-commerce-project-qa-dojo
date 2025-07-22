@@ -8,6 +8,7 @@ export class CookieDialogue {
   private acceptCookiesButton: Locator;
   private rejectOptionalCookiesButton: Locator;
   private cookiesSettingsButton: Locator;
+  private usCookiesButton: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -17,6 +18,11 @@ export class CookieDialogue {
     this.acceptCookiesButton = page.locator('button[id*="onetrust-accept"]');
     this.rejectOptionalCookiesButton = page.locator('button[id*="onetrust-reject"]');
     this.cookiesSettingsButton = page.getByRole('button', { name: 'Cookies Settings' });
+    this.usCookiesButton = page.locator('button[id="onetrust-pc-btn-handler"]');
+  }
+
+  public async acceptUsCookies() {
+    await this.usCookiesButton.click();
   }
 
   public async clickOnAcceptButton() {
