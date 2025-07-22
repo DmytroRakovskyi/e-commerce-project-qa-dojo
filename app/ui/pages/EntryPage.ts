@@ -12,8 +12,8 @@ export class EntryPage extends BasePage {
   constructor(page: Page) {
     super(page);
     this.cookieDialogue = new CookieDialogue(page);
-    this.countrySelectrorButton = page.getByLabel('Location');
-    this.languageSelectorButton = page.getByLabel('Language');
+    this.countrySelectrorButton = page.locator('select[name="selectedStore"]');
+    this.languageSelectorButton = page.locator('select[name="selectedLanguage"]');
     this.submitButton = page.locator('[class*="submit-button"]');
     this.rememberChoiceCheckBox = page.locator('.zds-checkbox-control');
   }
@@ -24,12 +24,12 @@ export class EntryPage extends BasePage {
 
   public async selectCountry(country: string) {
     await this.countrySelectrorButton.click();
-    await this.page.getByLabel('Location').selectOption(country);
+    await this.countrySelectrorButton.selectOption({ value: country });
   }
 
   public async selectLanguage(language: string) {
     await this.languageSelectorButton.click();
-    await this.page.getByLabel('Language').selectOption(language);
+    await this.languageSelectorButton.selectOption({ value: language });
   }
 
   public async rememberChoice() {

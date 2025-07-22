@@ -25,6 +25,13 @@ export default defineConfig({
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
+    geolocation: {
+      latitude: 50.4501,
+      longitude: 30.5234,
+    },
+    locale: 'uk-UA',
+    timezoneId: 'Europe/Kiev',
+    permissions: ['geolocation'],
     testIdAttribute: 'data-qa-id',
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: ' https://www.zara.com',

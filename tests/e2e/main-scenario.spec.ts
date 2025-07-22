@@ -42,7 +42,9 @@ test.describe('', { tag: ['@smoke', '@cookies'] }, () => {
       await seacrhResultPage.searchComponent.chooseFromSearch('jeans');
       await seacrhResultPage.searchComponent.selectCatergoie(Category.Men);
       await expect(page).toHaveURL('/ua/uk/search?searchTerm=jeans&section=MAN');
-      await seacrhResultPage.addAllAvailAbleSizes('МІШКУВАТІ ДЖИНСИ З АКЦЕНТОВАНИМИ ШВАМИ');
+      await seacrhResultPage.addProductWithAvailAbleSizes();
+      await seacrhResultPage.headerComponent.goToCart();
+      await expect(page).toHaveURL('ua/uk/shop/cart');
     });
 
     await browser.close();

@@ -11,13 +11,11 @@ export class CookieDialogue {
 
   constructor(page: Page) {
     this.page = page;
-    this.dialogueContainer = page.getByLabel('Cookie banner');
-    this.policyText = page.getByText('We use first-party and third-');
-    this.policyLink = page.getByRole('link', { name: 'Cookies policy' });
-    this.acceptCookiesButton = page.getByRole('button', { name: 'Accept All Cookies' });
-    this.rejectOptionalCookiesButton = page.getByRole('button', {
-      name: 'Reject optional cookies',
-    });
+    this.dialogueContainer = page.locator('//*[@id="onetrust-group-container"]');
+    this.policyText = page.locator('//*[@id="onetrust-policy-text"]');
+    this.policyLink = page.locator('a[class="ot-cookie-policy-link"]');
+    this.acceptCookiesButton = page.locator('button[id*="onetrust-accept"]');
+    this.rejectOptionalCookiesButton = page.locator('button[id*="onetrust-reject"]');
     this.cookiesSettingsButton = page.getByRole('button', { name: 'Cookies Settings' });
   }
 
