@@ -37,50 +37,64 @@ export class SearchResultPage extends BasePage {
     await expect(this.headerComponent.cartButton).toContainText(expectedCount.toString());
   }
 
-  public async addProductWithAvailAbleSizes(name?: string, color?: string) {
-    const availableSizes: string[] = await this.getAvailAbleSizes(name, color);
-    const count: number = await this.addSizesToCart(availableSizes, name, color);
-    await this.verifyCartCounter(count);
+  public async addProductWithAvailableSizes(): Promise<void> {
+    const productWithEnoughSizes = await this.findProductWithMinSizes(4);
+    const selectedProductIndex = productWithEnoughSizes.product;
+    const availableSizes = productWithEnoughSizes.sizes;
+
+    const addedCount = await this.addAllSizesToCart(selectedProductIndex, availableSizes);
+
+    await this.verifyCartCounter(addedCount);
   }
 
-  private async getAvailAbleSizes(name?: string, color?: string): Promise<string[]> {
-    await this.productCardComponent.chooseProduct(name, color);
+  private async findProductWithMinSizes(minSizes: number) {
+    const allProducts = await this.productCardComponent.getAllProducts();
+    for (let i = 0; i < allProducts.length; i++) {
+      try {
+        const sizes = await this.getProductSizes(i);
+        if (sizes.length >= minSizes) {
+          return { product: i, sizes };
+        }
+      } catch (error) {
+        continue;
+      }
+    }
+    throw new Error(`not found with ${minSizes}`);
+  }
+
+  private async getProductSizes(productIndex: number): Promise<string[]> {
+    await this.productCardComponent.clickOnProductByIndex(productIndex);
     await expect(this.sizeSelectorModal.sizeSelectorWindow).toBeVisible();
 
-    const sizeLocators: Locator[] = await this.sizeSelectorModal.sizeInStock.all();
-    const sizesText: string[] = [];
-    for (const element of sizeLocators) {
-      const text = await element.textContent();
-      if (text) {
-        sizesText.push(text.trim());
+    const sizeElements = await this.sizeSelectorModal.sizeInStock.all();
+    const sizes: string[] = [];
+    for (const element of sizeElements) {
+      const sizeText = await element.textContent();
+      if (sizeText) {
+        sizes.push(sizeText.trim());
       }
     }
     await this.closeSideModal();
-    return sizesText;
+    return sizes;
   }
 
-  private async addSizesToCart(sizes: string[], name?: string, color?: string): Promise<number> {
-    let count: number = 0;
+  private async addAllSizesToCart(productIndex: number, sizes: string[]): Promise<number> {
+    let addedCount = 0;
     for (const size of sizes) {
-      await this.addSingleSizeToCart(size, color, name);
-      count++;
+      await this.addSingleSizeToCart(productIndex, size);
+      addedCount++;
     }
-    return count;
+    return addedCount;
   }
 
-  private async addSingleSizeToCart(size: string, name?: string, color?: string) {
-    await this.productCardComponent.chooseProduct(name, color);
+  private async addSingleSizeToCart(productIndex: number, size: string) {
+    await this.productCardComponent.clickOnProductByIndex(productIndex);
     await expect(this.sizeSelectorModal.sizeSelectorWindow).toBeVisible();
 
-    const sizeOption: Locator = this.sizeSelectorModal.sizeInStock.filter({ hasText: size });
-
+    const sizeOption = this.sizeSelectorModal.sizeInStock.filter({ hasText: size });
     if ((await sizeOption.count()) === 0) {
       await this.closeSideModal();
-      throw Error(`Size ${size} not found`);
-    }
-    if ((await sizeOption.count()) < 4) {
-      await this.closeSideModal();
-      throw Error(`Sizes are less then 4`);
+      throw new Error('Size not found');
     }
     await sizeOption.click();
     await expect(this.sizeSelectorModal.sizeSelectorWindow).not.toBeVisible();

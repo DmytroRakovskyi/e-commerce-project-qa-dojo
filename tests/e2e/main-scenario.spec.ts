@@ -50,8 +50,8 @@ test.describe('', { tag: ['@smoke', '@cookies'] }, () => {
       await expect(page).toHaveURL('/pl/uk/search?searchTerm=jeans&section=MAN');
     });
 
-    await test.step('Search for the item and add all available sizes, naviate to the cart', async () => {
-      await seacrhResultPage.addProductWithAvailAbleSizes();
+    await test.step('Search for the item and add all available sizes, navigate to the cart', async () => {
+      await seacrhResultPage.addProductWithAvailableSizes();
       await seacrhResultPage.headerComponent.goToCart();
     });
 

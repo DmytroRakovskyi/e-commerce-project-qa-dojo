@@ -13,22 +13,15 @@ export class ProductCardComponent {
     this.productColor = page.locator('p[class*="info-colors"]');
   }
 
-  public async chooseProduct(name?: string, color?: string): Promise<void> {
-    try {
-      await this.selectProductByNameAndColor(name!, color!);
-    } catch (error) {
-      await this.selectProductByPosition(0);
+  public async getAllProducts(): Promise<Locator[]> {
+    return await this.productCard.all();
+  }
+
+  public async clickOnProductByIndex(index: number): Promise<void> {
+    const products = await this.getAllProducts();
+    if (index >= products.length || index < 0) {
+      throw new Error('Out of range');
     }
-  }
-
-  private async selectProductByPosition(position: number) {
-    await this.productCard.locator(this.addToTheCartButton).nth(position).click();
-  }
-
-  private async selectProductByNameAndColor(name: string, color: string) {
-    const productWithName: Locator = this.productCard.filter({ hasText: name });
-    const dedicatedColor: Locator = this.productCard.filter({ has: this.page.getByLabel(color) });
-    const selectedProduct: Locator = productWithName.filter({ has: dedicatedColor });
-    await selectedProduct.locator(this.addToTheCartButton).first().click();
+    await products[index].locator(this.addToTheCartButton).click();
   }
 }
