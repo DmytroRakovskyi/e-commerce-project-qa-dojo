@@ -1,7 +1,7 @@
 import { Page, Locator } from '@playwright/test';
 
 export class SizeSelectorModal {
-  readonly page: Page;
+  private page: Page;
   readonly sizeSelectorWindow: Locator;
   readonly sizeInStock: Locator;
 

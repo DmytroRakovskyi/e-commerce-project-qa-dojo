@@ -26,8 +26,8 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     geolocation: {
-      latitude: 40.7128, // Нью-Йорк
-      longitude: -74.006, // Нью-Йорк
+      latitude: 40.7128,
+      longitude: -74.006,
     },
     locale: 'en-US',
     timezoneId: 'America/New_York',

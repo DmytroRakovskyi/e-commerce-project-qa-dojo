@@ -1,7 +1,7 @@
 import { Page, Locator } from '@playwright/test';
 
 export class CookieDialogue {
-  readonly page: Page;
+  private page: Page;
   readonly dialogueContainer: Locator;
   readonly policyText: Locator;
   readonly policyLink: Locator;
@@ -37,7 +37,7 @@ export class CookieDialogue {
   public async clickOnRejectButton() {
     await this.rejectOptionalCookiesButton.click();
   }
-  public async clickOnSettubgsButton() {
+  public async clickOnSettingsButton() {
     await this.cookiesSettingsButton.click();
   }
 

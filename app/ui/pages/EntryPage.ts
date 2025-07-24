@@ -3,9 +3,9 @@ import { BasePage } from './BasePage';
 import { CookieDialogue } from '../modals/cookieDialogue.modal';
 
 export class EntryPage extends BasePage {
-  public cookieDialogue: CookieDialogue;
-  public countrySelectrorButton: Locator;
-  public languageSelectorButton: Locator;
+  readonly cookieDialogue: CookieDialogue;
+  readonly countrySelectrorButton: Locator;
+  readonly languageSelectorButton: Locator;
   private submitButton: Locator;
   private rememberChoiceCheckBox: Locator;
 

@@ -3,7 +3,7 @@ import { BasePage } from './BasePage';
 import { HeaderComponent } from '../components/header.component';
 
 export class MainPage extends BasePage {
-  public headerComponent: HeaderComponent;
+  readonly headerComponent: HeaderComponent;
 
   constructor(page: Page) {
     super(page);

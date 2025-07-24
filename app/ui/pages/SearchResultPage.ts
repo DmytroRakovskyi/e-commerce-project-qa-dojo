@@ -4,7 +4,6 @@ import { HeaderComponent } from '../components/header.component';
 import { SearchComponent } from '../components/search.component';
 import { ProductCardComponent } from '../components/productCard.component';
 import { SizeSelectorModal } from '../modals/sizeSelector.modal';
-import { count } from 'console';
 
 export class SearchResultPage extends BasePage {
   public headerComponent: HeaderComponent;
@@ -78,6 +77,10 @@ export class SearchResultPage extends BasePage {
     if ((await sizeOption.count()) === 0) {
       await this.closeSideModal();
       throw Error(`Size ${size} not found`);
+    }
+    if ((await sizeOption.count()) < 4) {
+      await this.closeSideModal();
+      throw Error(`Sizes are less then 4`);
     }
     await sizeOption.click();
     await expect(this.sizeSelectorModal.sizeSelectorWindow).not.toBeVisible();
