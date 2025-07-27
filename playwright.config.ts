@@ -37,7 +37,7 @@ export default defineConfig({
     baseURL: ' https://www.zara.com',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on',
+    trace: 'retain-on-failure',
   },
 
   /* Configure projects for major browsers */

@@ -4,6 +4,7 @@ import { MainPage } from '../../app/ui/pages/MainPage';
 import { SearchResultPage } from '../../app/ui/pages/SearchResultPage';
 import { CartPage } from '../../app/ui/pages/CartPage';
 import { LoginPage } from '../../app/ui/pages/LoginPage';
+import { SignUpPage } from '../../app/ui/pages/SignUpPage';
 import { countries } from '../testdata/countries-dictionary';
 import { Category } from '../../app/types/types';
 const { chromium } = require('playwright-extra');
@@ -19,6 +20,7 @@ test.describe('', { tag: ['@smoke', '@cookies'] }, () => {
     const seacrhResultPage = new SearchResultPage(page);
     const cartPage = new CartPage(page);
     const loginPage = new LoginPage(page);
+    const signUpPage = new SignUpPage(page);
     await test.step('Navigate to entry page', async () => {
       await entryPage.navigateToEntryPage();
     });
@@ -63,10 +65,17 @@ test.describe('', { tag: ['@smoke', '@cookies'] }, () => {
       await cartPage.proceedToPurchase();
     });
 
-    await test.step('Registration with invalid user ', async () => {
+    await test.step('Navigate to registration form, fill invalid data', async () => {
       await loginPage.goToRegistration();
+      await signUpPage.fillSignUpForm();
+      await signUpPage.sumbitRegistration();
     });
 
+    await signUpPage.verifyErrorMessages('email');
+    await signUpPage.verifyErrorMessages('password');
+    await signUpPage.verifyErrorMessages('firstName');
+    await signUpPage.verifyErrorMessages('lastName');
+    await signUpPage.verifyErrorMessages('phone.number');
     await browser.close();
   });
 });
