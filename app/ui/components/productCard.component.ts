@@ -1,5 +1,4 @@
-import { Page, Locator } from '@playwright/test';
-import { strict } from 'assert';
+import { Page, Locator, expect } from '@playwright/test';
 export class ProductCardComponent {
   readonly page: Page;
   readonly productCard: Locator;
@@ -22,6 +21,10 @@ export class ProductCardComponent {
     if (index >= products.length || index < 0) {
       throw new Error('Out of range');
     }
-    await products[index].locator(this.addToTheCartButton).click();
+    // Wait for the specific product to be visible and stable
+    await products[index].waitFor({ state: 'visible', timeout: 10000 });
+    const addButton = products[index].locator(this.addToTheCartButton);
+    await addButton.waitFor({ state: 'visible', timeout: 5000 });
+    await addButton.click();
   }
 }

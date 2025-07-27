@@ -1,9 +1,5 @@
 name: Playwright Tests
 on:
-  push:
-    branches: [master]
-  pull_request:
-    branches: [master]
   workflow_dispatch:
     inputs:
       workers_count:
@@ -31,10 +27,10 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
       - name: Run Playwright tests
-        run: npx playwright test --project=e2e_chrome
+        run: npx playwright test --project=${{ inputs.test_type }} --workers=${{ inputs.workers_count }}
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
-          name: playwright-report
+          name: playwright-report-${{ inputs.test_type }}
           path: playwright-report/
           retention-days: 1
