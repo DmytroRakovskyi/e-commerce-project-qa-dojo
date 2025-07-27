@@ -34,7 +34,7 @@ export class CartPage extends BasePage {
     console.log(quantitySelectors);
   }
 
-  public async removeEverySecondItem() {
+  public async removeEverySecondItem(): Promise<void> {
     const quantitySelectors: Locator[] = await this.getAllItemQuantitySelectors();
     const itemsToRemove: Locator[] = quantitySelectors.filter((_, index) => index % 2 === 1);
 
@@ -47,11 +47,11 @@ export class CartPage extends BasePage {
     }
   }
 
-  private async verifyRemovalToast() {
+  private async verifyRemovalToast(): Promise<void> {
     await expect(this.removalToast).toBeVisible();
   }
 
-  public async proceedToPurchase() {
+  public async proceedToPurchase(): Promise<void> {
     await this.continueButton.click();
   }
 }

@@ -17,7 +17,7 @@ export class SearchComponent {
     this.searchFieldInput = page.locator('.search-home-input');
   }
 
-  public async selectCatergoie(category: Category) {
+  public async selectCatergoie(category: Category): Promise<void> {
     await this.categories[category].click();
   }
 
@@ -25,17 +25,17 @@ export class SearchComponent {
     return this.page.getByRole('option', { name: name, exact: true });
   }
 
-  public async useSearch(name: string) {
+  public async useSearch(name: string): Promise<void> {
     await this.searchFieldInput.click();
     await this.searchFieldInput.fill(name);
   }
 
-  public async chooseFromSearch(name: string) {
+  public async chooseFromSearch(name: string): Promise<void> {
     const option: Locator = this.getOptionByName(name);
     await option.click();
   }
 
-  public async verifyCategories() {
+  public async verifyCategories(): Promise<void> {
     for (const locator of Object.values(this.categories)) {
       await expect(locator).toBeVisible();
     }

@@ -34,6 +34,7 @@ export class EntryPage extends BasePage {
 
   public async rememberChoice() {
     if (!(await this.rememberChoiceCheckBox.isChecked())) {
+      console.log(await this.rememberChoiceCheckBox.isChecked());
       return await this.rememberChoiceCheckBox.check();
     }
   }
