@@ -14,7 +14,7 @@ on:
           - 'e2e_safari'
           - 'e2e_firefox'
 jobs:
-  test:
+  Tests:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:

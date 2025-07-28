@@ -16,14 +16,14 @@ test.describe(
         await test.step('Cookie dialogue content visibility', async () => {
           await expect(stealthEntryPage.cookieDialogue.dialogueContainer).toBeVisible();
         });
-        await test.step('Accept all cookies, verify dialogue window is closed', async () => {
+        await test.step('Accept all cookies, ensure dialogue window is closed', async () => {
           await stealthEntryPage.cookieDialogue.acceptUsPolicies();
           await stealthEntryPage.cookieDialogue.clickOnAcceptButtonUs();
 
           await expect(stealthEntryPage.cookieDialogue.dialogueContainer).not.toBeVisible();
         });
 
-        await test.step('Select country and check language and submit', async () => {
+        await test.step('Select country, check language and submit', async () => {
           await stealthEntryPage.selectCountry(countries.pl.code);
           await expect(stealthEntryPage.countrySelectrorButton).toContainText(countries.pl.name);
           await stealthEntryPage.selectLanguage(countries.ua.languageCode);
