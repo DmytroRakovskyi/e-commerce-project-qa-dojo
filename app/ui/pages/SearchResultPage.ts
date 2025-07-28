@@ -38,7 +38,7 @@ export class SearchResultPage extends BasePage {
     await expect(this.headerComponent.cartButton).toContainText(expectedCount.toString());
   }
 
-  public async addProductWithAvailableSizes(minSizes: number = 4): Promise<void> {
+  public async addProductWithAvailableSizes(minSizes: number = 2): Promise<void> {
     const productWithEnoughSizes = await this.findProductWithMinSizes(minSizes);
     const selectedProductIndex: number = productWithEnoughSizes.product;
     const availableSizes: string[] = productWithEnoughSizes.sizes;

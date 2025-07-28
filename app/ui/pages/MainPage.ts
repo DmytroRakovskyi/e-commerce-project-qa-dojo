@@ -9,4 +9,8 @@ export class MainPage extends BasePage {
     super(page);
     this.headerComponent = new HeaderComponent(page);
   }
+
+  public async navigateToMainPage(): Promise<void> {
+    await this.page.goto('/');
+  }
 }

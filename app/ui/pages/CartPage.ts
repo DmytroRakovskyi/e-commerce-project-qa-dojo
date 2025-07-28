@@ -2,7 +2,6 @@ import { Page, Locator, expect } from '@playwright/test';
 import { BasePage } from './BasePage';
 import { HeaderComponent } from '../components/header.component';
 import { ProductCardComponent } from '../components/productCard.component';
-import { it } from 'node:test';
 
 export class CartPage extends BasePage {
   private headerComponent: HeaderComponent;

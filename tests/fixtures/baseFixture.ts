@@ -1,13 +1,13 @@
-import { test as base, Browser, Page } from '@playwright/test';
+import { test as base, Browser, Page, BrowserContext } from '@playwright/test';
 import { EntryPage } from '../../app/ui/pages/EntryPage';
 import { MainPage } from '../../app/ui/pages/MainPage';
 import { SearchResultPage } from '../../app/ui/pages/SearchResultPage';
 import { CartPage } from '../../app/ui/pages/CartPage';
 import { LoginPage } from '../../app/ui/pages/LoginPage';
 import { SignUpPage } from '../../app/ui/pages/SignUpPage';
-import { userInfo } from 'os';
-const { chromium } = require('playwright-extra');
-const stealth = require('puppeteer-extra-plugin-stealth');
+import fs from 'fs';
+import { chromium } from 'playwright-extra';
+import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 
 export type Fixtures = {
   stealthBrowser: Browser;
@@ -27,23 +27,64 @@ export type Fixtures = {
 };
 
 export const test = base.extend<Fixtures>({
-  stealthBrowser: async ({}, use) => {
-    chromium.use(stealth());
+  context: async ({ browser }, use, testInfo) => {
+    const hasSkipSetupTag: boolean = testInfo.tags?.includes('@skipGlobalSetup');
+
+    let contextOptions = {};
+
+    if (!hasSkipSetupTag) {
+      try {
+        if (fs.existsSync('.auth/storage-state.json')) {
+          const raw = fs.readFileSync('.auth/storage-state.json', 'utf-8');
+          const storageState = JSON.parse(raw);
+          contextOptions = { storageState };
+        }
+      } catch (error) {
+        console.log('Cannot load storage state:', error);
+      }
+    }
+
+    const context = await browser.newContext(contextOptions);
+    await use(context);
+    await context.close();
+  },
+
+  stealthBrowser: async ({}, use, testInfo) => {
+    chromium.use(StealthPlugin());
     const browser = await chromium.launch();
     await use(browser);
     await browser.close();
   },
 
-  stealthPage: async ({ stealthBrowser }, use) => {
-    const page = await stealthBrowser.newPage();
+  stealthPage: async ({ stealthBrowser }, use, testInfo) => {
+    const hasSkipSetupTag = testInfo.tags?.includes('@skipGlobalSetup');
+
+    let contextOptions = {};
+
+    if (!hasSkipSetupTag) {
+      try {
+        if (fs.existsSync('.auth/storage-state.json')) {
+          const raw = fs.readFileSync('.auth/storage-state.json', 'utf-8');
+          const storageState = JSON.parse(raw);
+          contextOptions = { storageState };
+        }
+      } catch (error) {
+        console.log('Cannot load storage state for stealth:', error);
+      }
+    }
+
+    const context = await stealthBrowser.newContext(contextOptions);
+    const page = await context.newPage();
     await use(page);
     await page.close();
+    await context.close();
   },
 
   entryPage: async ({ page }, use) => {
     const entryPage = new EntryPage(page);
     await use(entryPage);
   },
+
   mainPage: async ({ page }, use) => {
     const mainPage = new MainPage(page);
     await use(mainPage);
@@ -58,6 +99,7 @@ export const test = base.extend<Fixtures>({
     const loginPage = new LoginPage(page);
     await use(loginPage);
   },
+
   cartPage: async ({ page }, use) => {
     const cartPage = new CartPage(page);
     await use(cartPage);
@@ -72,6 +114,7 @@ export const test = base.extend<Fixtures>({
     const entryPage = new EntryPage(stealthPage);
     await use(entryPage);
   },
+
   stealthMainPage: async ({ stealthPage }, use) => {
     const mainPage = new MainPage(stealthPage);
     await use(mainPage);
@@ -86,6 +129,7 @@ export const test = base.extend<Fixtures>({
     const loginPage = new LoginPage(stealthPage);
     await use(loginPage);
   },
+
   stealthCartPage: async ({ stealthPage }, use) => {
     const cartPage = new CartPage(stealthPage);
     await use(cartPage);
