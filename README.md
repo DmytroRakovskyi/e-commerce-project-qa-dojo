@@ -53,8 +53,7 @@ This project contains end-to-end tests for e-commerce platform using Playwright 
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/DmytroRakovskyi/final-project-qa-dojo.git
-cd final-project-qa-dojo
+git clone https://github.com/DmytroRakovskyi/e-commerce-project-qa-dojo
 ```
 
 2. Install dependencies:
