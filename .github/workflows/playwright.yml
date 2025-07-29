@@ -34,11 +34,45 @@ jobs:
           name: playwright-report-${{ inputs.test_type }}
           path: playwright-report/
           retention-days: 1
+      - name: Create index page
+        if: always()
+        run: |
+          mkdir -p temp-pages/reports/${{ github.run_number }}-${{ inputs.test_type }}
+          cp -r playwright-report/* temp-pages/reports/${{ github.run_number }}-${{ inputs.test_type }}/
+
+          # Создаем индексную страницу
+          cat > temp-pages/index.html << EOF
+          <!DOCTYPE html>
+          <html>
+          <head>
+              <title>Test Reports</title>
+              <meta charset="utf-8">
+              <style>
+                  body { font-family: Arial, sans-serif; margin: 40px; }
+                  .report-link { 
+                      display: block; 
+                      padding: 10px; 
+                      margin: 10px 0; 
+                      background: #f5f5f5; 
+                      text-decoration: none; 
+                      border-radius: 5px; 
+                  }
+                  .report-link:hover { background: #e0e0e0; }
+              </style>
+          </head>
+          <body>
+              <h1>Playwright Test Reports</h1>
+              <a href="reports/${{ github.run_number }}-${{ inputs.test_type }}/index.html" class="report-link">
+                  Latest Report: Run #${{ github.run_number }} - ${{ inputs.test_type }}
+              </a>
+          </body>
+          </html>
+          EOF
+
       - name: Deploy Report to GitHub Pages
         if: always()
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./playwright-report
-          destination_dir: reports/${{ github.run_number }}-${{ inputs.test_type }}
+          publish_dir: ./temp-pages
           keep_files: true
